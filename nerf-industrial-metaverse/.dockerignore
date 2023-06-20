@@ -1,0 +1,9 @@
+docker
+nerf_industrial_metaverse/data/*
+nerf_industrial_metaverse/external
+nerf_industrial_metaverse/PXL.mp4
+nerf_industrial_metaverse/PXL_test_3.mp4
+nerf_industrial_metaverse/nerf_to_video.mp4
+nerf_industrial_metaverse/nerfmv-app
+nerf_industrial_metaverse/trained-ngp.ingp
+nerf_industrial_metaverse/videos

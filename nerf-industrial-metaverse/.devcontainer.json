@@ -1,0 +1,33 @@
+{
+    "dockerFile": "Dockerfile",
+    "runArgs": [
+        "--gpus=all",
+        "--shm-size=2g",
+        "-v",
+        "/etc/group:/etc/group:ro",
+        "-v",
+        "/etc/passwd:/etc/passwd:ro",
+        "-v",
+        "/etc/shadow:/etc/shadow:ro",
+        "-v",
+        "/home/${env:USER}/:/home/${env:USER}/",
+        "-u",
+        "1013:1013",
+        "-e",
+        "USER=${env:USER}",
+        "-p",
+        "3000:3000",
+        "-p",
+        "5000:5000"
+    ],
+    "mounts": [
+        "source=./sysctl.conf,target=/etc/sysctl.conf,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python"
+            ]
+        }
+    }
+}

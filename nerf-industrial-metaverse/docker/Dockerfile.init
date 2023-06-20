@@ -1,0 +1,92 @@
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
+
+ARG COLMAP_VERSION=dev
+ENV CERES_SOLVER_VERSION=2.0.0
+ARG CUDA_ARCHITECTURES=86
+ENV PATH=/usr/local/cuda/bin:$PATH
+
+ENV REQUESTS_CA_BUNDLE="/etc/ssl/certs/" \
+    CURL_CA_BUNDLE="/etc/ssl/certs/" \
+    http_proxy="http://cloudproxy-sickag.sickcn.net:10415" \
+    https_proxy="http://cloudproxy-sickag.sickcn.net:10415" \
+    no_proxy="localhost,127.0.0.1,.sickcn.net" \
+    HTTP_PROXY="http://cloudproxy-sickag.sickcn.net:10415" \
+    HTTPS_PROXY="http://cloudproxy-sickag.sickcn.net:10415" \
+    NO_PROXY="localhost,127.0.0.1,.sickcn.net" \
+    AWS_CA_BUNDLE="/etc/ssl/certs/ZscalerRootCertificate-2048-SHA256.pem"
+
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ENV SSL_CERT_DIR=/etc/ssl/certs
+
+COPY ca-certificates.crt /etc/ssl/certs/
+
+RUN sed -i 's/archive.ubuntu.com/deagxartifactory.sickcn.net\/artifactory/g' /etc/apt/sources.list \
+&& sed -i 's/security.ubuntu.com/deagxartifactory.sickcn.net\/artifactory/g' /etc/apt/sources.list \
+&& sed -i 's/archive.canonical.com/deagxartifactory.sickcn.net\/artifactory/g' /etc/apt/sources.list
+
+# Prevent stop building ubuntu at time zone selection.
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update &&  \
+    apt-get install -y python3-pip
+RUN pip install --upgrade --no-cache-dir pip
+
+# Prepare and empty machine for building.
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    git \
+    cmake \
+    ninja-build \
+    build-essential \
+    libboost-program-options-dev \
+    libboost-filesystem-dev \
+    libboost-graph-dev \
+    libboost-system-dev \
+    libboost-test-dev \
+    libeigen3-dev \
+    libflann-dev \
+    libfreeimage-dev \
+    libmetis-dev \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libsqlite3-dev \
+    libglew-dev \
+    qtbase5-dev \
+    libqt5opengl5-dev \
+    libcgal-dev \
+    libceres-dev \
+    nano \
+    python-is-python3 \
+    ffmpeg \
+    wget \
+    unzip
+
+# Install Ceres-solver (required by colmap).
+RUN echo "Installing Ceres Solver ver. ${CERES_SOLVER_VERSION}..." \
+	&& cd opt \
+	&& git clone https://github.com/ceres-solver/ceres-solver \
+	&& cd ceres-solver \
+	&& git checkout ${CERES_SOLVER_VERSION} \
+	&& mkdir build \
+	&& cd build \
+	&& cmake ../ -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF \
+    && make -j \
+    && make install && \
+    cd ../.. && \
+    rm -rf ceres-solver
+
+# Build and install COLMAP.
+RUN git clone https://github.com/colmap/colmap.git
+RUN cd colmap && \
+    mkdir build && \
+    cd build && \
+    cmake .. -GNinja -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCHITECTURES} && \
+    ninja && \
+    ninja install && \
+    cd .. && rm -rf colmap
+
+ADD . /nerf-industrial-metaverse
+RUN cd nerf-industrial-metaverse && \
+    python3 -m pip install -e . && \
+    cd ..
