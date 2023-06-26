@@ -42,7 +42,8 @@ RUN apt-get update && apt-get install -y \
     python-is-python3 \
     ffmpeg \
     curl \
-    wget
+    wget \
+    tmux
 
 # Install Node.js
 RUN mkdir temp && cd temp && wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz && \
@@ -86,3 +87,6 @@ RUN cd instant-ngp && \
 ADD . nerf-industrial-metaverse
 RUN cp instant-ngp/build/pyngp.cpython* /nerf-industrial-metaverse
 RUN cd nerf-industrial-metaverse && pip install -e . 
+RUN cd nerf-industrial-metaverse/nerf_industrial_metaverse/viewer/client && npm install 
+RUN pip install flask-cors
+WORKDIR nerf-industrial-metaverse/nerf_industrial_metaverse

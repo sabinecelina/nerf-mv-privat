@@ -1,6 +1,5 @@
 #!/bin/bash
 
 docker run --gpus all \
-  -v ./video:/nerf-industrial-metaverse/nerf_industrial_metaverse/videos \
-  --rm -it \
+   --rm -p 3000:3000 -p 5000:5000 -it \
   nerf_mv
