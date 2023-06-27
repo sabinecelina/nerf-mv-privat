@@ -5,8 +5,6 @@ nerf_industrial_metaverse/data
 nerf_industrial_metaverse/data/01_Werkzeugkoffer
 
 nerf_industrial_metaverse/viewer/server/data/plarndt
-nerf_industrial_metaverse/viewer/server/uploads
-nerf_industrial_metaverse/viewer/server/data
 poetry.lock
 external
 nerf_industrial_metaverse/data/playground/images
@@ -26,8 +24,3 @@ nerf_industrial_metaverse/colmap.*
 /nerf_industrial_metaverse/scripts_ngp/__pycache__
 /nerf_industrial_metaverse/scripts_ngp/flip/__pycache__
 /nerf_industrial_metaverse/viewer/server/__pycache__
-/nerf_industrial_metaverse/viewer/server/tmp
-nerf_industrial_metaverse/viewer/server/downloads/tasse.obj
-nerf_industrial_metaverse/viewer/server/downloads/
-nerf_industrial_metaverse/viewer/server/configs/
-nerf_industrial_metaverse/viewer/server/configs/default.yaml

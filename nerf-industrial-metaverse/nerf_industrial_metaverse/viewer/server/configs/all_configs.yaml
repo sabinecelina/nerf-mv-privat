@@ -1,0 +1,48 @@
+# default config.
+
+name: PXL_test_3
+
+dir:
+    data_dir: 'data'      # It is the main dataset address containing all dataset
+
+overwrite: True
+data:
+    video_path: uploads/PXL_test_3.mp4
+    scene_name: PXL_test_3
+    video_downsample: 10            # fps downsample ratio, default 1
+    image_downsample: 1             # image rescale downsample ratio, default 1
+    colmap:
+        match_type: 'sequential_matcher'        # ['sequential_matcher', 'exhaustive_matcher']
+
+json: 
+    name : "transform.json"
+    aabb_scale: 32
+
+train: # Run instant neural graphics primitives with additional configuration & output options
+    files: []
+    scene: True            # The scene to load. Can be the scene's name or a full path to the training data. Can be NeRF dataset, a *.obj/*.stl mesh for training a SDF, an image, or a *.nvdb volume.
+    n_steps: 20000                # Number of steps to train for before quitting
+    network: ""                   # Path to the network config. configs/base.json. Uses the scene's default if unspecified
+    #load_snapshot: ""             # Load this snapshot before training. recommended extension: .ingp/.msgpack
+    save_snapshot: downloads/PXL_test_3.ingp
+    # nerf_compatibility: True    # Matches parameters with original NeRF. Can cause slowness and worse results on some scenes, but helps with high PSNR on synthetic scenes 
+    #test_transforms: ""           # Path to a nerf style transforms json from which we will compute PSNR.
+    near_distance: -1             # Set the distance from the camera at which training rays start for nerf. <0 means use ngp default
+    exposure: 0.0                 # Controls the brightness of the image. Positive numbers increase brightness, negative numbers decrease it
+    #screenshot_transforms: transform_copy.json     # Path to a nerf style transforms.json from which to save screenshots.
+    #screenshot_frames: 0     # Which frame(s) to take screenshots of
+    #screenshot_dir: data/room           # Which directory to output screenshots to
+    #screenshot_spp: 16           # type=int: Number of samples per pixel in screenshots
+    width: 1920
+    height: 1080
+    video_camera_path: configs/base_cam.json         # The camera path to render, e.g., base_cam.json.
+    video_camera_smoothing: True # Applies additional smoothing to the camera trajectory with the caveat that the endpoint of the camera path may not be reached
+    video_fps: 30                 # Number of frames per second
+    video_n_seconds: 5            # Number of seconds the rendered video should be long.
+    video_render_range: -1, -1  # Limit output to frames between START_FRAME and END_FRAME (inclusive)
+    video_spp: 8                  # Number of samples per pixel. A larger number means less noise, but slower rendering
+    video_output: PXL_test_3.mp4
+
+    #save_mesh: ""                 # Output a marching-cubes based mesh from the NeRF or SDF model. Supports OBJ and PLY format.
+    marching_cubes_res: 256       # Sets the resolution for the marching cubes grid.
+    sharpen: 0                    # Set amount of sharpening applied to NeRF training images. Range 0.0 to 1.0.

@@ -1,0 +1,38 @@
+data:
+  colmap:
+    match_type: sequential_matcher
+  image_downsample: 1
+  scene_name: plarndt
+  video_downsample: 10
+  video_path: plarndt
+dir:
+  data_dir: data
+iphone:
+  rotate: true
+json:
+  aabb_scale: 8
+  name: transform.json
+  subsample: 1
+name: plarndt
+overwrite: true
+train:
+  exposure: 0.0
+  files: []
+  height: 1080
+  marching_cubes_res: 256
+  n_steps: 15000
+  near_distance: -1
+  network: ''
+  save_snapshot: ./downloads/plarndt.ingp
+  scene: true
+  screenshot_dir: data/plarndt/screenshots
+  screenshot_frames: 0
+  screenshot_spp: 16
+  screenshot_transforms: ./screenshots/screenshot.json
+  sharpen: 0
+  video_camera_smoothing: true
+  video_fps: 30
+  video_n_seconds: 5
+  video_render_range: -1, -1
+  video_spp: 8
+  width: 1920
