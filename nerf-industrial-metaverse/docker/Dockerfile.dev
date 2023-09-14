@@ -1,8 +1,0 @@
-FROM init as build
-
-ENV PATH="${PATH}:/home/user/.local/bin"
-SHELL ["/bin/bash", "-c"]
-
-
-# Change working directory
-WORKDIR /workspace
