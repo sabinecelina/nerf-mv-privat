@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import LogViewer from './LogViewer';
-import ConfigChanger from './ConfigChanger';
+import HandleTraining from './HandleTraining';
 
 const UploadForm = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState('');
   const [showButtons, setShowButtons] = useState(false);
-  const [trainingMessage, setTrainingMessage] = useState('');
-  const [showConfigChanger, setShowConfigChanger] = useState(false); // Added state variable
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -48,40 +46,6 @@ const UploadForm = () => {
       });
   };
 
-  const handleStartTraining = () => {
-    setTrainingMessage(true);
-    fetch('/start-training', {
-      method: 'POST',
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to start training.');
-        }
-      })
-      .then((data) => {
-        const { status, message } = data;
-        if (status === 'success') {
-          console.log(message);
-        } else {
-          console.error(message);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleChangeConfigs = () => {
-    setShowConfigChanger((prevShowConfigChanger) => !prevShowConfigChanger);
-  };
-
-  const handleSaveConfigs = () => {
-    // Logic for saving the configs goes here...
-    setShowConfigChanger(false);
-  };
-
   return (
     <div>
       <input type="file" className="form-control mb-3" onChange={handleFileChange} />
@@ -107,20 +71,10 @@ const UploadForm = () => {
           {uploadStatus}
         </div>
       )}
-      {showConfigChanger && <ConfigChanger onSave={handleSaveConfigs} />}
       {showButtons && (
-        <div className="mt-3">
-          <button className="btn btn-primary me-2" onClick={handleStartTraining}>
-            Start Training
-          </button>
-          <button className="btn btn-secondary" onClick={handleChangeConfigs}>
-            Change Configs
-          </button>
-        </div>
+        <HandleTraining />
       )}
-      {trainingMessage && (
-        <LogViewer />
-      )}
+      <LogViewer />
     </div>
   );
 };

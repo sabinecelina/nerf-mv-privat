@@ -65,3 +65,9 @@
   height: 100%;
   object-fit: fill;
 }
+
+summary {
+  position: relative;
+  padding-left: 1.5em; /* Abstand für den Text */
+  cursor: pointer;
+}

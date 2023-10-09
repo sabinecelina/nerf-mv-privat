@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from './socket';
 
-const LogViewer = (props) => {
+const LogViewer = () => {
   const [logMessages, setLogMessages] = useState([]);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const LogViewer = (props) => {
         if (
           data.level === 'TRAINING' ||
           data.level === 'RENDERING' ||
-          data.level === 'COLMAP' // Add 'COLMAP' to the condition
+          data.level === 'COLMAP'
         ) {
           const index = updatedMessages.findIndex((log) => log.level === data.level);
 
@@ -51,8 +51,12 @@ const LogViewer = (props) => {
       fetchInitialLogMessages();
     }
 
+    // Start a timer to fetch logs periodically
+    const timer = setInterval(fetchLogMessages, 5000); // Fetch logs every 5 seconds
+
     return () => {
       socket.off('log_message');
+      clearInterval(timer); // Clean up the timer when the component unmounts
     };
   }, []);
 
@@ -69,6 +73,14 @@ const LogViewer = (props) => {
     initialLogMessages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     setLogMessages(initialLogMessages);
+  };
+
+  const fetchLogMessages = async () => {
+    try {
+      // Fetch latest log messages here and update the state
+    } catch (error) {
+      console.error('Error fetching latest logs:', error);
+    }
   };
 
   return (

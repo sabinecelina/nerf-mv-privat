@@ -1,0 +1,16 @@
+variables:
+  VERSION: '247a793f-c2f4-40ea-ae17-0089b6037b15'
+  SKIP_LINT: "true"
+  SKIP_TESTS: "true"
+  USE_VNS: "false"
+  #DEPENDENCY_TRACK_PROJECT_NAME: ""
+  GIT_SUBMODULE_STRATEGY: normal
+  CONTINUOUS_DELIVERY_REPOSITORY_URL: "https://oauth2:$MARKETPLACE_CD_ACCESS_TOKEN@gitlab.sickcn.net/Platforms/marketplace/stalls/nerf-place/nerf-place-continuous-delivery.git"
+  CONTINUOUS_DELIVERY_REPOSITORY_NAME: "nerf-place-continuous-delivery"
+  NPM_BUILD_OUT_DIR: "build"
+  
+
+include:
+  - project: "platforms/marketplace/gitlab-templates/gitlab-ci-cd-templates"
+    ref: main
+    file: "/frontend/micro_frontend.yaml"

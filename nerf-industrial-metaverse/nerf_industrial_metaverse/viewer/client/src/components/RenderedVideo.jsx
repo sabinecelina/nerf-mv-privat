@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { socket } from './socket'
 import ImageSlider from './ImageSlider';
+import ExportMesh from './ExportMesh';
 const RenderedVideo = () => {
 
   const [videoSource, setVideoSource] = useState('');
@@ -9,6 +10,21 @@ const RenderedVideo = () => {
   const [trainedFileURL, setTrainedFileURL] = useState('');
   const [trainedFileName, setTrainedFileName] = useState('');
   const [trainingDone, setTrainingDone] = useState(false);
+  const [downloadButtonDisabled, setDownloadButtonDisabled] = useState(false);
+  const [videoButtonDisabled, setVideoButtonDisabled] = useState(false);
+
+  const fetchFilename = () => {
+    fetch('/get-filename')
+      .then((response) => response.json())
+      .then((data) => {
+        const { filename } = data;
+        setTrainedFileName(filename);
+        console.log(trainedFileName)
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
   useEffect(() => {
     socket.on('training_complete', () => {
@@ -40,35 +56,31 @@ const RenderedVideo = () => {
       });
   };
 
-  const fetchFilename = () => {
-    fetch('/get-filename')
-      .then((response) => response.json())
-      .then((data) => {
-        const { filename } = data;
-        setTrainedFileName(filename);
-        console.log(trainedFileName)
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
   const handleDownload = () => {
+    setDownloadButtonDisabled(true);
+
     const link = document.createElement('a');
     link.href = trainedFileURL;
     link.download = trainedFileName;
     link.click();
+
+    setTimeout(() => {
+      setDownloadButtonDisabled(false);
+    }, 5000);
   };
   const handleVideo = () => {
-    // Send a request to Flask to start rendering the video
+    setVideoButtonDisabled(true);
     fetch('/render-video')
       .then(response => {
-        // Handle the response as needed
         console.log('Video rendering started');
       })
       .catch(error => {
-        // Handle errors
         console.error('Error rendering video:', error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setVideoButtonDisabled(false);
+        }, 5000);
       });
   };
 
@@ -92,11 +104,20 @@ const RenderedVideo = () => {
                   className="react-player"
                 />
               </div>}
-            <button className="download-button-container btn btn-primary my-3" onClick={handleDownload}>
+            <ExportMesh />
+            <button
+              className="download-button-container btn btn-primary my-3"
+              onClick={handleDownload}
+              disabled={downloadButtonDisabled}
+            >
               Download Training
             </button>
             {!videoRenderingDone &&
-              <button className="video-button-container btn btn-primary m-3" onClick={handleVideo}>
+              <button
+                className="video-button-container btn btn-primary m-3"
+                onClick={handleVideo}
+                disabled={videoButtonDisabled}
+              >
                 Render Video
               </button>
             }

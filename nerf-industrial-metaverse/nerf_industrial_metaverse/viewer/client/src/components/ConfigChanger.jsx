@@ -41,23 +41,38 @@ const ConfigChanger = () => {
   return (
     <div>
       <div>
-        <h4 classname="my-3">Training Configurations</h4>
+        <h4 className="my-3">Configurations</h4>
+        <ConfigInputField
+          label="Video Downsample:"
+          id="videoDownsample"
+          name="video_downsample"
+          value={newConfig.video_downsample || ''}
+          onChange={handleInputChange}
+          additionalText="Extracts every 2nd frame by default. Increase to extract every nth frame."
+        />
+        <ConfigInputField
+          label="Max Images of Video:"
+          id="max_count"
+          name="max_count"
+          value={newConfig.max_count || ''}
+          onChange={handleInputChange}
+          additionalText="Up to 380 frames can fit into GPU memory for training."
+        />
         <ConfigInputField
           label="N Steps:"
           id="nSteps"
           name="n_steps"
           value={newConfig.n_steps || ''}
           onChange={handleInputChange}
-          additionalText="Number of steps, default 20000"
+          additionalText="Number of training steps."
         />
-        <h4 classname="my-3">Json Configurations</h4>
         <ConfigInputField
           label="Subsample:"
           id="subsample"
           name="subsample"
           value={newConfig.subsample || ''}
           onChange={handleInputChange}
-          additionalText="Subsample Images. e.g. 10 - Use every 10th image for training (prevent: out of allocated memory)"
+          additionalText="After running COLMAP, the number of images for training can be reduced."
         />
         <ConfigInputField
           label="aabb_scale:"
@@ -65,26 +80,10 @@ const ConfigChanger = () => {
           name="aabb_scale"
           value={newConfig.aabb_scale || ''}
           onChange={handleInputChange}
-          additionalText="Large scene scale factor. 1=scene fits in unit cube; power of 2 up to 128, choices=[1, 2, 4, 8, 16, 32..., 128]"
-        />
-        <h4 classname="my-3">Only for Video Input</h4>
-        <ConfigInputField
-          label="Video Downsample:"
-          id="videoDownsample"
-          name="video_downsample"
-          value={newConfig.video_downsample || ''}
-          onChange={handleInputChange}
-          additionalText="FPS downsample ratio, default 1 (no image will skipped)"
-        />
-        <ConfigInputField
-          label="Image Downsample:"
-          id="imageDownsample"
-          name="image_downsample"
-          value={newConfig.image_downsample || ''}
-          onChange={handleInputChange}
-          additionalText="Image rescale downsample ratio, default 1 (no resize)"
+          additionalText="Scale factor for larger scenes. 1=Scene fits within a unit cube. [1,2,4,8,16,32,...,128]"
         />
       </div>
+
       <button className="btn btn-primary" onClick={handleChangeConfig}>
         Save Config
       </button>
