@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/nerf-mv-privat/precache-manifest.bad05b772f43c802c80c6a6be159d570.js"
+  "/nerf-mv-privat/precache-manifest.fe482870b3dccd18ff7b93380e5ea85f.js"
 );
 
 workbox.clientsClaim();
