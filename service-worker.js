@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/~schleise/masterthesis/nerf-trainer/precache-manifest.01b28adfabc8d9475c62c9672a9cc6f0.js"
+  "/nerf-metaverse-privat/precache-manifest.ce859518c7ab7fbec78a805cc251da2c.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/~schleise/masterthesis/nerf-trainer/index.html", {
+workbox.routing.registerNavigationRoute("/nerf-metaverse-privat/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
