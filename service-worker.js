@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/nerf-metaverse-privat/precache-manifest.ce859518c7ab7fbec78a805cc251da2c.js"
+  "/nerf-mv-privat/precache-manifest.bad05b772f43c802c80c6a6be159d570.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/nerf-metaverse-privat/index.html", {
+workbox.routing.registerNavigationRoute("/nerf-mv-privat/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
